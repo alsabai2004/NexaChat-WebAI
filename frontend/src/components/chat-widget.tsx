@@ -21,6 +21,10 @@ export default function ChatWidget() {
     const { messages, loading, error, handleSend, setError } = useSendMessage(setQuery);
     
     const handleClearChat = () => {
+        if (!window.confirm("Clear the current chat?")) {
+            return;
+        }
+
         clearSavedMessages();
         window.location.reload();
     };
