@@ -12,6 +12,14 @@ export const ChatMessage = ({
     index,
     message,
                             }:IChatMessage) => {
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(message.content);
+        } catch {
+            // Clipboard access may be unavailable
+        }
+    };
+
     return (
         <div key={index} className={`flex items-start ${message.type === 'user' ? 'justify-end' : ''}`}>
             {message.type === 'server' && (
@@ -33,6 +41,15 @@ export const ChatMessage = ({
                     <AvatarFallback>U</AvatarFallback>
                 </Avatar>
             )}
-        </div>
+        
+            <button
+                type="button"
+                onClick={handleCopy}
+                className="text-xs px-2 py-1 rounded border opacity-70 hover:opacity-100"
+                title="Copy message"
+            >
+                Copy
+            </button>
+</div>
     );
 };
