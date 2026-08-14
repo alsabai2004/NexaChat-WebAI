@@ -17,6 +17,14 @@ export default function ChatWidget() {
     const { isApiAlive } = useApiHeartbeat(1000);
     const { models, selectedModel, selectModel, error: modelsError } = useFetchModels();
     const [query, setQuery] = useState('');
+    const [darkMode, setDarkMode] = useState(() => {
+        return localStorage.getItem('nexachat_theme') === 'dark';
+    });
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', darkMode);
+        localStorage.setItem('nexachat_theme', darkMode ? 'dark' : 'light');
+    }, [darkMode]);
     const messagesEndRef = useRef(null);
     const { messages, loading, error, handleSend, setError } = useSendMessage(setQuery);
     
@@ -78,7 +86,15 @@ export default function ChatWidget() {
                 </button>
                 <div className="text-lg font-semibold mb-3">
                 NexaChat WebAI
-            </div>
+            
+                <button
+                    type="button"
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="text-sm px-3 py-1 rounded border ml-2"
+                >
+                    {darkMode ? "☀️ Light" : "🌙 Dark"}
+                </button>
+</div>
             <div className="flex flex-col h-[600px] w-full max-w-md mx-auto bg-background rounded-lg shadow-lg">
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground rounded-t-lg">
                 <div className="flex gap-2">
