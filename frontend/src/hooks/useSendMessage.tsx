@@ -1,23 +1,32 @@
-import { useEffect } from 'react';
 
 const NEXACHAT_MESSAGES = 'nexachat_messages';
 
 export const loadSavedMessages = () => {
-  try {
-    const saved = localStorage.getItem(NEXACHAT_MESSAGES);
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
+    try {
+        const saved = localStorage.getItem(NEXACHAT_MESSAGES);
+        return saved ? JSON.parse(saved) : [];
+    } catch {
+        return [];
+    }
 };
 
 export const saveMessages = (messages: unknown[]) => {
-  try {
-    localStorage.setItem(NEXACHAT_MESSAGES, JSON.stringify(messages));
-  } catch {
-    // Ignore localStorage errors
-  }
+    try {
+        localStorage.setItem(NEXACHAT_MESSAGES, JSON.stringify(messages));
+    } catch {
+        // Ignore localStorage errors
+    }
 };
+
+export const clearSavedMessages = () => {
+    try {
+        localStorage.removeItem(NEXACHAT_MESSAGES);
+    } catch {
+        // Ignore localStorage errors
+    }
+};
+
+const NEXACHAT_MESSAGES = 'nexachat_messages';
 
 export const clearSavedMessages = () => {
   try {
@@ -27,7 +36,6 @@ export const clearSavedMessages = () => {
   }
 };
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 const NEXACHAT_MESSAGES = 'nexachat_messages';
 
@@ -72,7 +80,7 @@ interface OllamaResponse {
 const useSendMessage = (
     setQuery: React.Dispatch<React.SetStateAction<string>>,
 ) => {
-    const [messages, setMessages] = useState<IMessage[]>([]);
+    const [messages, setMessages] = useState<IMessage[]>(loadSavedMessages());
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
