@@ -1,8 +1,22 @@
-# Project Installation and Running Guide
+# 🤖 NexaChat WebAI
+
+A modern web interface for interacting with local AI models through Ollama.
 
 This guide will help you to set up and run the project, which consists of two main parts: the API backend and the frontend. Follow the steps below to get everything up and running.
 
 ![Overview](./docs/hero.png)
+
+## ✨ Features
+
+- 🤖 Local Ollama AI chat
+- 💾 Persistent chat history
+- 🆕 New Chat and Clear Chat
+- 🌙 Light / Dark mode
+- 🟢 Ollama online/offline status
+- 📋 Copy AI responses
+- ⚠️ Improved error handling
+- ⏳ Loading states
+- 🧩 Ollama model selection
 
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
