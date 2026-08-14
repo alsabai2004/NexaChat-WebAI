@@ -6,7 +6,7 @@ NexaChat WebAI combines a modern React frontend with a NestJS backend to provide
 
 The project includes conversation management, persistent chat history, AI model selection, light and dark themes, API availability monitoring, loading states, error handling, and a responsive interface designed for both desktop and mobile devices.
 
-"Overview" (./docs/hero.png)
+![Overview](./docs/hero.png)
 
 ---
 
@@ -59,56 +59,56 @@ The project includes conversation management, persistent chat history, AI model 
 
 ---
 
-🛠️ Technologies Used
+## 🧰 Technologies Used
 
-Technology| Purpose
-React| Frontend user interface
-TypeScript| Application development
-Vite| Frontend development and build tool
-Tailwind CSS| UI styling
-NestJS| Backend framework
-Node.js| Backend runtime
-Ollama| Local AI model execution
-Google Gemini| Cloud AI integration
-REST API| Frontend ↔ Backend communication
-Swagger| API documentation
-Git| Version control
-GitHub| Source code hosting
-Cloudflare Tunnel| Remote/local testing
-
+| Technology | Purpose |
+|---|---|
+| React | Frontend UI |
+| TypeScript | Type-safe development |
+| Vite | Frontend development and build system |
+| Tailwind CSS | Responsive UI styling |
+| shadcn/ui | Reusable UI components |
+| NestJS | Backend API framework |
+| Node.js | Backend runtime |
+| npm | Package management |
+| Ollama | Local AI model runtime |
+| REST API | Frontend ↔ Backend communication |
+| LocalStorage | Client-side persistence |
+| Swagger | API documentation |
 ---
 
 🏗️ Application Architecture
-
+```
                          ┌───────────────────────┐
-                         │      User Browser     │
-                         │   Desktop / Mobile    │
+                         │        User Browser       │
+                         │     Desktop / Mobile      │
                          └───────────┬───────────┘
-                                     │
-                                     ▼
+                                       │
+                                       ▼
                          ┌───────────────────────┐
-                         │   NexaChat WebAI      │
-                         │       Frontend        │
-                         │ React + TypeScript    │
-                         │        + Vite         │
+                         │     NexaChat WebAI        │
+                         │         Frontend          │
+                         │   React + TypeScript      │
+                         │          + Vite           │
                          └───────────┬───────────┘
-                                     │
-                                  REST API
-                                     │
-                                     ▼
+                                       │
+                                    REST API
+                                       │
+                                       ▼
                          ┌───────────────────────┐
-                         │      NestJS API       │
-                         │        Backend        │
+                         │        NestJS API         │
+                         │          Backend          │
                          └───────────┬───────────┘
-                                     │
+                                       │
                           ┌──────────┴──────────┐
-                          │                     │
-                          ▼                     ▼
+                          │                         │
+                          ▼                        ▼
                  ┌─────────────────┐   ┌─────────────────┐
-                 │     Ollama      │   │  Google Gemini  │
-                 │  Local Models   │   │    Cloud AI     │
+                 │        Ollama      │   │    Google Gemini   │
+                 │     Local Models   │   │      Cloud AI      │
                  └─────────────────┘   └─────────────────┘
 
+```
 ---
 
 📋 Table of Contents
@@ -146,6 +146,15 @@ Ensure you have the following installed on your machine:
 - "Ollama" (https://ollama.com/) for local AI models
 - Google Gemini API key if Gemini is enabled
 - Git
+
+---
+## 💾 Local Persistence
+
+| Stored Data | Purpose |
+|---|---|
+| Chat History | Preserve conversations |
+| Active Conversation | Restore the selected conversation |
+| Theme | Remember Light/Dark mode preference |
 
 ---
 
@@ -223,6 +232,34 @@ Never commit real API keys or secrets to GitHub.
 
 ---
 
+## 💬 Chat Features
+
+| Feature | Description |
+|---|---|
+| New Chat | Creates a new conversation |
+| Send Message | Sends a message to the backend |
+| Model Selector | Selects an available AI model |
+| Chat History | Displays previous conversations |
+| Delete Chat | Deletes a selected conversation |
+| Clear Chat | Clears the current conversation |
+| Dark Mode | Enables dark interface |
+| Light Mode | Enables light interface |
+| API Status | Shows backend availability |
+| Loading State | Indicates that a response is being processed |
+| Error Modal | Displays API or application errors |
+
+---
+## 📱 Responsive Design
+
+| Device | Supported |
+|---|---|
+| Desktop | ✅ |
+| Laptop | ✅ |
+| Tablet | ✅ |
+| Android Phone | ✅ |
+| Mobile Browser | ✅ |
+
+---
 ▶️ Running the Project
 
 NexaChat WebAI consists of two main services:
@@ -231,6 +268,16 @@ Frontend → http://localhost:5173
 Backend  → http://localhost:7010
 
 Both services should be running for the complete application experience.
+
+---
+
+## 🚀 Running the Project
+
+| Service | Port | Technology |
+|---|---:|---|
+| Backend API | `7010` | NestJS |
+| Frontend | `5173` | Vite |
+| Alternative Frontend Port | `5174` | Vite |
 
 ---
 
@@ -290,37 +337,36 @@ Always use the URL displayed by Vite.
 
 ---
 
-🖥️ Project Features
+# 🖥️ Project Features
 
 The following screenshots demonstrate the main NexaChat WebAI interface and functionality.
 
-🟢 API Online Status
+# 🟢 API Online Status
 
-"status-online" (./docs/status-online.png)
+![status-online](./docs/status-online.png)
 
-🔴 API Offline Status
+# 🔴 API Offline Status
 
-"status-offline" (./docs/status-offline.png)
+![status-offline](./docs/status-offline.png)
+# ⏱️ Connection Time
 
-⏱️ Connection Time
+![time](./docs/time.png)
 
-"time" (./docs/time.png)
+# 🧩 AI Model Selection
 
-🧩 AI Model Selection
+![list-of-all-ai-models](./docs/list-of-all-ai-models.png)
 
-"list-of-all-ai-models" (./docs/list-of-all-ai-models.png)
+# 💬 User Message
 
-💬 User Message
+![users-message](./docs/users-message.png)
 
-"users-message" (./docs/users-message.png)
+# ⌨️ Message Input
 
-⌨️ Message Input
+![users-message-input-field](./docs/users-message-input-field.png)
 
-"users-message-input-field" (./docs/users-message-input-field.png)
+# 🤖 AI Server Response
 
-🤖 AI Server Response
-
-"server-response" (./docs/server-response.png)
+![server-response](./docs/server-response.png)
 
 ---
 
@@ -397,7 +443,7 @@ The project is divided into two main parts:
 
 - api — Backend API
 - frontend — Web interface
-
+```
 NexaChat-WebAI/
 │
 ├── api/
@@ -440,7 +486,7 @@ NexaChat-WebAI/
 │   └── server-response.png
 │
 └── README.md
-
+```
 ---
 
 💾 Conversation Storage
@@ -661,7 +707,7 @@ Possible future improvements include:
 
 👨‍💻 Author
 
-Mohammed Abdulrazzaq
+Eng\ Mohammed Najeeb Abdulrazzaq Al-Sabai 
 
 GitHub:
 
