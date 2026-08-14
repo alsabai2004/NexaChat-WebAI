@@ -1,6 +1,60 @@
 import { useEffect } from 'react';
+
+const NEXACHAT_MESSAGES = 'nexachat_messages';
+
+export const loadSavedMessages = () => {
+  try {
+    const saved = localStorage.getItem(NEXACHAT_MESSAGES);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
+export const saveMessages = (messages: unknown[]) => {
+  try {
+    localStorage.setItem(NEXACHAT_MESSAGES, JSON.stringify(messages));
+  } catch {
+    // Ignore localStorage errors
+  }
+};
+
+export const clearSavedMessages = () => {
+  try {
+    localStorage.removeItem(NEXACHAT_MESSAGES);
+  } catch {
+    // Ignore localStorage errors
+  }
+};
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+const NEXACHAT_MESSAGES = 'nexachat_messages';
+
+export const loadSavedMessages = () => {
+  try {
+    const saved = localStorage.getItem(NEXACHAT_MESSAGES);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
+export const saveMessages = (messages: unknown[]) => {
+  try {
+    localStorage.setItem(NEXACHAT_MESSAGES, JSON.stringify(messages));
+  } catch {
+    // Ignore localStorage errors
+  }
+};
+
+export const clearSavedMessages = () => {
+  try {
+    localStorage.removeItem(NEXACHAT_MESSAGES);
+  } catch {
+    // Ignore localStorage errors
+  }
+};
 import { BACKEND_URL } from '@/utils/constants.ts';
 
 interface IMessage {
