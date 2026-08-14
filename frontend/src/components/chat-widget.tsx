@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 import {useState, useRef, useEffect} from "react";
 import useFetchModels from "@/hooks/useFetchModels.tsx";
 import useApiHeartbeat from "@/hooks/useHeartbeat.tsx";
-import useSendMessage from "@/hooks/useSendMessage.tsx";
+import useSendMessage, { clearSavedMessages } from "@/hooks/useSendMessage.tsx";
 import ErrorModal from "@/components/ui/error-modal.tsx";
 import {Loader} from "@/components/ui/loader.tsx";
 import {Timer} from "@/components/ui/timer.tsx";
@@ -19,6 +19,11 @@ export default function ChatWidget() {
     const [query, setQuery] = useState('');
     const messagesEndRef = useRef(null);
     const { messages, loading, error, handleSend, setError } = useSendMessage(setQuery);
+    
+    const handleClearChat = () => {
+        clearSavedMessages();
+        window.location.reload();
+    };
     const inputRef = useRef(null);
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
@@ -50,7 +55,14 @@ export default function ChatWidget() {
                 onClose={handleCloseErrorModal}
                 errorMessage={error || modelsError || ""}
             />
-        <div className="flex flex-col h-[600px] w-full max-w-md mx-auto bg-background rounded-lg shadow-lg">
+        <button
+                    type="button"
+                    onClick={handleClearChat}
+                    className="text-sm px-3 py-1 rounded border"
+                >
+                    Clear Chat
+                </button>
+                <div className="flex flex-col h-[600px] w-full max-w-md mx-auto bg-background rounded-lg shadow-lg">
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground rounded-t-lg">
                 <div className="flex gap-2">
                     <div className="relative">
