@@ -217,6 +217,10 @@ const useSendMessage = (
         }
     };
 
+    useEffect(() => {
+        saveMessages(messages);
+    }, [messages]);
+
     return {
         messages,
         loading,
