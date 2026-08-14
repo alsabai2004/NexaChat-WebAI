@@ -2,7 +2,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {Dispatch, SetStateAction} from "react";
 
 interface ICloseButton {
-    setError: Dispatch<SetStateAction<null>>;
+    setError: Dispatch<SetStateAction<string | null>>;
 }
 
 export const CloseButton = ({setError}: ICloseButton) => {
@@ -16,7 +16,7 @@ export const CloseButton = ({setError}: ICloseButton) => {
     );
 };
 
-function XIcon(props) {
+function XIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}

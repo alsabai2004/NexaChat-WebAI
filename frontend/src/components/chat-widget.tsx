@@ -25,7 +25,7 @@ export default function ChatWidget() {
         document.documentElement.classList.toggle('dark', darkMode);
         localStorage.setItem('nexachat_theme', darkMode ? 'dark' : 'light');
     }, [darkMode]);
-    const messagesEndRef = useRef(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const { messages, loading, error, handleSend, setError } = useSendMessage(setQuery);
     
     const handleClearChat = () => {
@@ -42,7 +42,7 @@ export default function ChatWidget() {
         window.location.reload();
     };
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
     useEffect(() => {

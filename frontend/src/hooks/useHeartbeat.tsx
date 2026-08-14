@@ -5,7 +5,7 @@ const useApiHeartbeat = (interval = 5000) => {
     const url = `${BACKEND_URL}/heartbeat`;
     const [isApiAlive, setIsApiAlive] = useState<boolean>(true);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<unknown>(null);
 
     const checkHeartbeat = async () => {
         try {

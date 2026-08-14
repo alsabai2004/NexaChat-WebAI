@@ -4,10 +4,10 @@ import {BACKEND_URL} from "@/utils/constants.ts";
 
 const useCurrentTime = (interval = 6000) => {
     const url = `${BACKEND_URL}/time`;
-    const [currentTimeFormatted, setCurrentTimeFormatted] = useState(null);
-    const [currentTime, setCurrentTime] = useState(null);
+    const [currentTimeFormatted, setCurrentTimeFormatted] = useState<string | null>(null);
+    const [currentTime, setCurrentTime] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<unknown>(null);
 
     const fetchCurrentTime = async () => {
         try {
