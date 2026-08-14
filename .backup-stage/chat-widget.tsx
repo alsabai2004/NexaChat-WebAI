@@ -115,13 +115,13 @@ export default function ChatWidget() {
                 errorMessage={error || modelsError || ""}
             />
 
-            <div className="nexa-page min-h-screen bg-background p-4">
-                <div className="nexa-topbar flex items-center justify-between max-w-5xl mx-auto mb-3">
-                    <div className="nexa-topbar-title text-lg font-semibold">
+            <div className="min-h-screen bg-background p-4">
+                <div className="flex items-center justify-between max-w-5xl mx-auto mb-3">
+                    <div className="text-lg font-semibold">
                         NexaChat WebAI
                     </div>
 
-                    <div className="nexa-topbar-actions flex gap-2">
+                    <div className="flex gap-2">
                         <button
                             type="button"
                             onClick={() => setDarkMode(!darkMode)}
@@ -140,9 +140,9 @@ export default function ChatWidget() {
                     </div>
                 </div>
 
-                <div className="nexa-chat flex h-[600px] w-full max-w-5xl mx-auto bg-background rounded-lg shadow-lg overflow-hidden border relative">
+                <div className="flex h-[600px] w-full max-w-5xl mx-auto bg-background rounded-lg shadow-lg overflow-hidden border">
                     {sidebarOpen && (
-                        <aside className="nexa-sidebar w-64 border-r bg-muted/40 flex flex-col">
+                        <aside className="w-64 border-r bg-muted/40 flex flex-col">
                             <div className="p-3">
                                 <Button
                                     className="w-full"
@@ -218,7 +218,7 @@ export default function ChatWidget() {
                     )}
 
                     <div className="flex-1 flex flex-col min-w-0">
-                        <div className="nexa-header flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
+                        <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
                             <div className="flex items-center gap-2">
                                 <button
                                     type="button"
@@ -255,7 +255,7 @@ export default function ChatWidget() {
                             </div>
                         </div>
 
-                        <div className="nexa-messages flex-1 overflow-y-auto p-4 space-y-4">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4">
                             {messages.map((message, index) => (
                                 <ChatMessage
                                     key={`${activeId}-${index}-${message.type}`}
@@ -269,7 +269,7 @@ export default function ChatWidget() {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        <div className="nexa-input flex items-center px-4 py-3 bg-muted">
+                        <div className="flex items-center px-4 py-3 bg-muted">
                             <Input
                                 ref={inputRef}
                                 type="text"

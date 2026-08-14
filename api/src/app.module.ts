@@ -11,6 +11,8 @@ import { ConversationController } from './conversation/conversation.controller';
 import { HeartbeatController } from './heartbeat/heartbeat.controller';
 import { OllamaService } from './ollama/ollama.service';
 import { OllamaController } from './ollama/ollama.controller';
+import { GeminiService } from './gemini/gemini.service';
+import { GeminiController } from './gemini/gemini.controller';
 
 @Module({
   imports: [
@@ -26,7 +28,8 @@ import { OllamaController } from './ollama/ollama.controller';
     ConversationController,
     HeartbeatController,
     OllamaController,
+    GeminiController,
   ],
-  providers: [AppService, ChatgptService, ConversationService, OllamaService],
+  providers: [AppService, ChatgptService, ConversationService, OllamaService, GeminiService],
 })
 export class AppModule {}
