@@ -1,84 +1,173 @@
 import { useState } from 'react';
-import {BACKEND_URL} from "@/utils/constants.ts";
+import { BACKEND_URL } from '@/utils/constants.ts';
 
 interface IMessage {
     type: 'user' | 'server';
     content: string;
 }
 
-const useSendMessage = (setQuery: React.Dispatch<React.SetStateAction<string>>) => {
+interface OllamaResponse {
+    response?: string;
+    model?: string;
+    done?: boolean;
+    error?: string;
+}
+
+const useSendMessage = (
+    setQuery: React.Dispatch<React.SetStateAction<string>>,
+) => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSend = async (query, selectedModel) => {
-        if (!query.trim() || !selectedModel) {
-            setError('Please enter a query and select a model');
+    const handleSend = async (query: string, selectedModel: string) => {
+        const cleanQuery = query.trim();
+
+        if (!cleanQuery || !selectedModel) {
+            setError('Please enter a message and select a model.');
             return;
         }
+
+        if (loading) return;
+
         setLoading(true);
         setError(null);
 
-        // Add user message
-        setMessages(prev => [...prev, { type: 'user', content: query }]);
+        setMessages((prev) => [
+            ...prev,
+            { type: 'user', content: cleanQuery },
+            { type: 'server', content: '' },
+        ]);
+
+        setQuery('');
 
         try {
             const response = await fetch(`${BACKEND_URL}/ollama/query`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': '*/*',
+                    Accept: 'application/json',
                 },
-                body: JSON.stringify({ model: selectedModel, query }),
+                body: JSON.stringify({
+                    model: selectedModel,
+                    query: cleanQuery,
+                }),
             });
 
+            const contentType = response.headers.get('content-type') || '';
+            let responseText = '';
+
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                let message = `Request failed (${response.status})`;
+
+                try {
+                    if (contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        message =
+                            errorData?.message ||
+                            errorData?.error ||
+                            message;
+                    } else {
+                        const text = await response.text();
+                        if (text.trim()) message = text;
+                    }
+                } catch {
+                    // Keep the default error message.
+                }
+
+                throw new Error(message);
             }
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let accumulatedResponse = '';
+            if (contentType.includes('application/json')) {
+                const data: OllamaResponse = await response.json();
+                responseText = data.response || data.error || '';
+            } else if (response.body) {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
 
-            setMessages(prev => [...prev, { type: 'server', content: '' }]);
-            setQuery('');
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
+                while (true) {
+                    const { done, value } = await reader.read();
 
-                const chunk = decoder.decode(value);
-                const lines = chunk.split('\n');
+                    if (done) break;
 
-                for (const line of lines) {
-                    if (line.trim() !== '') {
+                    const chunk = decoder.decode(value, { stream: true });
+
+                    for (const line of chunk.split('\n')) {
+                        if (!line.trim()) continue;
+
                         try {
-                            const data = JSON.parse(line);
-                            accumulatedResponse += data.response;
-                            setMessages(prev => {
-                                const newMessages = [...prev];
-                                newMessages[newMessages.length - 1] = {
-                                    type: 'server',
-                                    content: accumulatedResponse
-                                };
-                                return newMessages;
-                            });
-                        } catch (error) {
-                            console.error('Error parsing JSON:', error);
+                            const data: OllamaResponse = JSON.parse(line);
+                            responseText += data.response || '';
+                        } catch {
+                            responseText += line;
                         }
                     }
+
+                    setMessages((prev) => {
+                        const updated = [...prev];
+                        const lastIndex = updated.length - 1;
+
+                        if (updated[lastIndex]?.type === 'server') {
+                            updated[lastIndex] = {
+                                type: 'server',
+                                content: responseText,
+                            };
+                        }
+
+                        return updated;
+                    });
                 }
             }
 
+            setMessages((prev) => {
+                const updated = [...prev];
+                const lastIndex = updated.length - 1;
+
+                if (updated[lastIndex]?.type === 'server') {
+                    updated[lastIndex] = {
+                        type: 'server',
+                        content:
+                            responseText ||
+                            'The AI returned an empty response.',
+                    };
+                }
+
+                return updated;
+            });
         } catch (err) {
-            console.error('Error:', err);
-            setError(err.message);
-            setMessages(prev => [...prev, { type: 'server', content: 'Sorry, an error occurred. Please try again.' }]);
+            const message =
+                err instanceof Error
+                    ? err.message
+                    : 'An unexpected error occurred.';
+
+            console.error('Chat request error:', err);
+            setError(message);
+
+            setMessages((prev) => {
+                const updated = [...prev];
+                const lastIndex = updated.length - 1;
+
+                if (updated[lastIndex]?.type === 'server') {
+                    updated[lastIndex] = {
+                        type: 'server',
+                        content: `⚠️ ${message}`,
+                    };
+                }
+
+                return updated;
+            });
         } finally {
             setLoading(false);
         }
     };
 
-    return { messages, loading, error, handleSend, setError };
+    return {
+        messages,
+        loading,
+        error,
+        handleSend,
+        setError,
+    };
 };
 
 export default useSendMessage;

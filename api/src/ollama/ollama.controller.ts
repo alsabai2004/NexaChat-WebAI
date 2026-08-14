@@ -1,64 +1,66 @@
-import {Controller, Post, Body, Get} from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Get,
+    Post,
+} from '@nestjs/common';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OllamaService } from './ollama.service';
-import {ApiBody, ApiResponse, ApiTags} from "@nestjs/swagger";
 
+@ApiTags('ollama')
 @Controller('ollama')
 export class OllamaController {
     constructor(private readonly ollamaService: OllamaService) {}
 
-    @ApiTags('chat')
     @Post('query')
     @ApiBody({
         schema: {
             type: 'object',
             properties: {
-                model: { type: 'string' },
-                query: { type: 'string' }
+                model: {
+                    type: 'string',
+                    example: 'llama3.2',
+                },
+                query: {
+                    type: 'string',
+                    example: 'Explain computer networks simply.',
+                },
             },
-            required: ['model', 'query']
-        }
+            required: ['model', 'query'],
+        },
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'AI response generated successfully',
+    })
+    @ApiResponse({
+        status: 400,
+        description: 'Invalid model or message',
+    })
+    @ApiResponse({
+        status: 503,
+        description: 'Ollama is unavailable',
     })
     async queryOllama(
         @Body('model') model: string,
-        @Body('query') query: string
+        @Body('query') query: string,
     ): Promise<any> {
+        if (!model?.trim()) {
+            throw new BadRequestException('Model is required');
+        }
+
+        if (!query?.trim()) {
+            throw new BadRequestException('Message cannot be empty');
+        }
+
         return this.ollamaService.fetchOllamaData(model, query);
     }
-    @ApiTags('chat')
+
     @Get('models')
     @ApiResponse({
-        schema: {
-            type: 'object',
-            properties: {
-                models: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            name: { type: 'string' },
-                            model: { type: 'string' },
-                            modified_at: { type: 'string', format: 'date-time' },
-                            size: { type: 'integer' },
-                            digest: { type: 'string' },
-                            details: {
-                                type: 'object',
-                                properties: {
-                                    parent_model: { type: 'string' },
-                                    format: { type: 'string' },
-                                    family: { type: 'string' },
-                                    families: {
-                                        type: 'array',
-                                        items: { type: 'string' },
-                                    },
-                                    parameter_size: { type: 'string' },
-                                    quantization_level: { type: 'string' },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        status: 200,
+        description: 'Returns all locally installed Ollama models',
     })
     async getAvailableModels(): Promise<any> {
         return this.ollamaService.fetchAvailableModels();
