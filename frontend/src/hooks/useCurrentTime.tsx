@@ -21,7 +21,7 @@ const useCurrentTime = (interval = 6000) => {
             setCurrentTimeFormatted(formatTime(data.currentTime));
         } catch (err) {
             const data = new Date();
-            setCurrentTimeFormatted(formatTime(data));
+            setCurrentTimeFormatted(formatTime(data.toISOString()));
             setError(err);
         } finally {
             setLoading(false);

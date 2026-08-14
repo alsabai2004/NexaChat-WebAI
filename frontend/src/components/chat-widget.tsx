@@ -37,10 +37,7 @@ export default function ChatWidget() {
         window.location.reload();
     };
 
-    const handleNewChat = () => {
-        clearSavedMessages();
-        window.location.reload();
-    };
+
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
