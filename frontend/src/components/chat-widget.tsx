@@ -25,6 +25,10 @@ export default function ChatWidget() {
             return;
         }
 
+        if (!window.confirm("Clear the current chat?")) {
+            return;
+        }
+
         clearSavedMessages();
         window.location.reload();
     };
