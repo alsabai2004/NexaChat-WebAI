@@ -66,7 +66,10 @@ export default function ChatWidget() {
                 >
                     Clear Chat
                 </button>
-                <div className="flex flex-col h-[600px] w-full max-w-md mx-auto bg-background rounded-lg shadow-lg">
+                <div className="text-lg font-semibold mb-3">
+                NexaChat WebAI
+            </div>
+            <div className="flex flex-col h-[600px] w-full max-w-md mx-auto bg-background rounded-lg shadow-lg">
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground rounded-t-lg">
                 <div className="flex gap-2">
                     <div className="relative">
